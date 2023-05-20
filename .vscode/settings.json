@@ -1,0 +1,10 @@
+{
+    "files.insertFinalNewline": true,
+    "C_Cpp.clang_format_sortIncludes": true,
+    "sonarlint.pathToCompileCommands": "${workspaceFolder}\\build\\compile_commands.json",
+    "cmake.debugConfig": {
+        "args": [
+            "${workspaceFolder}/Stanford_Bunny.stl"
+        ]
+    }
+}
