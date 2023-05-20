@@ -13,5 +13,5 @@ if(LIB_MATH)
     target_link_libraries(meshproc INTERFACE ${LIB_MATH})
 endif()
 
-add_executable(render_triangle render_triangle.c)
-target_link_libraries(render_triangle PRIVATE meshproc)
+add_executable(render_mesh render_mesh.c)
+target_link_libraries(render_mesh PRIVATE meshproc)
