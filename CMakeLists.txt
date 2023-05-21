@@ -13,5 +13,8 @@ if(LIB_MATH)
     target_link_libraries(meshproc INTERFACE ${LIB_MATH})
 endif()
 
+find_package(OpenMP REQUIRED)
+target_link_libraries(meshproc INTERFACE OpenMP::OpenMP_C)
+
 add_executable(render_mesh render_mesh.c)
 target_link_libraries(render_mesh PRIVATE meshproc)
