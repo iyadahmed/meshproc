@@ -3,6 +3,7 @@
 #include <stdbool.h>
 
 #include "aabb.h"
+#include "distance_point_to_plane.h"
 #include "macros.h"
 #include "vec3.h"
 
@@ -63,7 +64,7 @@ Triangle create_triangle(Vec3 a, Vec3 b, Vec3 c)
 
 bool is_above_plane(Vec3 point, Vec3 plane_point, Vec3 plane_normal)
 {
-    return vec3_dot(vec3_sub(point, plane_point), plane_normal) >= -0.00001f;
+    return distance_point_to_plane(point, plane_point, plane_normal) >= -0.00001f;
 }
 
 bool is_inside_triangle_prism(Vec3 point, Triangle *triangle)
