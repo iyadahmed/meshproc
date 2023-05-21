@@ -97,7 +97,7 @@ bool ray_plane_intersection(Vec3 ray_origin, Vec3 ray_direction, Vec3 plane_poin
     }
     float v_dot_n = vec3_dot(vec3_sub(plane_point, ray_origin), plane_normal);
     *t_out = v_dot_n / l_dot_n;
-    return (*t_out) > 0;
+    return (*t_out) > -0.00001f;
 }
 
 bool ray_triangle_intersection(Vec3 ray_origin, Vec3 ray_direction, Triangle *triangle, float *t_out)
