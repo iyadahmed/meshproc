@@ -7,6 +7,7 @@
 #include "mapping.h"
 #include "mesh_io.h"
 #include "ray_bvh_intersection.h"
+#include "timer.h"
 #include "triangle.h"
 
 int main(int argc, char **argv)
@@ -24,10 +25,15 @@ int main(int argc, char **argv)
     Triangle *triangles = NULL;
     uint32_t triangle_count = 0;
     BVH *bvh_ptr = NULL;
+    Millis_Timer timer;
 
+    timer_start(&timer);
     load_binary_stl(mesh_filepath, &triangles, &triangle_count);
+    printf("Loading mesh took %lu ms\n", timer_stop(&timer));
 
+    timer_start(&timer);
     BVH bvh = build_bvh(triangles, triangle_count);
+    printf("Building BVH took %lu ms\n", timer_stop(&timer));
     bvh_ptr = &bvh;
 
     ppm_file = fopen("image.ppm", "wb");
