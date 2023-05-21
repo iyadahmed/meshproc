@@ -5,6 +5,7 @@
 
 #include "bvh.h"
 #include "mapping.h"
+#include "mesh_io.h"
 #include "ray_bvh_intersection.h"
 #include "triangle.h"
 
@@ -19,61 +20,12 @@ int main(int argc, char **argv)
 
     const char *mesh_filepath = argv[1];
 
-    FILE *mesh_file = NULL, *ppm_file = NULL;
+    FILE *ppm_file = NULL;
     Triangle *triangles = NULL;
+    uint32_t triangle_count = 0;
     BVH *bvh_ptr = NULL;
 
-    mesh_file = fopen(mesh_filepath, "rb");
-    if (mesh_file == NULL)
-    {
-        fputs("Failed to open mesh file\n", stderr);
-        goto cleanup;
-    }
-
-    if (fseek(mesh_file, 80, SEEK_CUR) != 0)
-    {
-        fputs("Failed to skip mesh file header\n", stderr);
-        goto cleanup;
-    }
-
-    uint32_t triangle_count = 0;
-    if (fread(&triangle_count, sizeof(uint32_t), 1, mesh_file) != 1)
-    {
-        fputs("Failed to read number of triangles from mesh file\n", stderr);
-        goto cleanup;
-    }
-
-    triangles = malloc(sizeof(Triangle) * triangle_count);
-    if (triangles == NULL)
-    {
-        fputs("Failed to allocate memory for mesh triangles\n", stderr);
-        goto cleanup;
-    }
-
-    assert(sizeof(Vec3) == sizeof(float[3]));
-    for (uint32_t i = 0; i < triangle_count; i++)
-    {
-        if (fseek(mesh_file, sizeof(Vec3), SEEK_CUR) != 0)
-        {
-            fputs("Failed to skip normals in mesh file\n", stderr);
-            goto cleanup;
-        }
-
-        Vec3 vertices[3];
-        if (fread(vertices, sizeof(Vec3), 3, mesh_file) != 3)
-        {
-            fputs("Failed to read vertices from mesh file\n", stderr);
-            goto cleanup;
-        }
-
-        triangles[i] = create_triangle(vertices[0], vertices[1], vertices[2]);
-
-        if (fseek(mesh_file, sizeof(uint16_t), SEEK_CUR) != 0)
-        {
-            fputs("Failed to skip \"attribute byte count\" in mesh file\n", stderr);
-            goto cleanup;
-        }
-    }
+    load_binary_stl(mesh_filepath, &triangles, &triangle_count);
 
     BVH bvh = build_bvh(triangles, triangle_count);
     bvh_ptr = &bvh;
@@ -157,9 +109,6 @@ int main(int argc, char **argv)
 cleanup:
     if (ppm_file)
         fclose(ppm_file);
-
-    if (mesh_file)
-        fclose(mesh_file);
 
     if (triangles)
         free(triangles);
