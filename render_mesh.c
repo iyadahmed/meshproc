@@ -83,26 +83,6 @@ int main(int argc, char **argv)
                                       vec3_scale(camera_up, y));
             Vec3 ray_direction = vec3_normalize(vec3_sub(pixel_pos, camera_location));
 
-            // bool is_hit = false;
-            // float t, min_t;
-            // for (uint32_t ti = 0; ti < triangle_count; ti++)
-            // {
-            //     if (ray_triangle_intersection(camera_location, ray_direction, triangles + ti, &t))
-            //     {
-            //         if (is_hit)
-            //         {
-            //             if (t < min_t)
-            //             {
-            //                 min_t = t;
-            //             }
-            //         }
-            //         else
-            //         {
-            //             min_t = t;
-            //             is_hit = true;
-            //         }
-            //     }
-            // }
             float min_t;
             bool is_hit = ray_bvh_intersection(bvh_ptr, camera_location, ray_direction, &min_t);
 
