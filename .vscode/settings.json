@@ -4,10 +4,11 @@
     "sonarlint.pathToCompileCommands": "${workspaceFolder}\\build\\compile_commands.json",
     "cmake.debugConfig": {
         "args": [
-            "${workspaceFolder}/Stanford_Bunny.stl"
+            "${workspaceFolder}/two_cubes.stl"
         ]
     },
     "files.associations": {
-        "ray_aabb_intersection.h": "c"
+        "ray_aabb_intersection.h": "c",
+        "ray_bvh_intersection.h": "c"
     }
 }
