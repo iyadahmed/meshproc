@@ -10,7 +10,7 @@ bool edge_aabb_intersection(Vec3 edge_origin, Vec3 edge_direction, float edge_le
 {
     if (ray_aabb_intersection(edge_origin, edge_direction, aabb, t_out))
     {
-        return (*t_out) < edge_length;
+        return (*t_out) < (edge_length + 0.00001f);
     }
     return false;
 }
