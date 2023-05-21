@@ -4,10 +4,10 @@
 #include <stdlib.h>
 
 #include "bvh.h"
-#include "edge_bvh_intersection.h"
+#include "edge_aabb_intersection.h"
+#include "edge_triangle_intersection.h"
 #include "mapping.h"
 #include "mesh_io.h"
-#include "ray_bvh_intersection.h"
 #include "timer.h"
 #include "triangle.h"
 
@@ -52,11 +52,38 @@ int main(int argc, char **argv)
         {
             Vec3 edge_origin = triangle->vertices[ei];
             Vec3 edge_direction = triangle->normalized_edge_vectors[ei];
-            float t;
-            if (edge_bvh_intersection(bvh_ptr, edge_origin, edge_direction, triangle->edge_lengths[ei], &t))
+            float edge_length = triangle->edge_lengths[ei];
+
             {
-                Vec3 point = vec3_add(edge_origin, vec3_scale(edge_direction, t));
-                fwrite(&point, sizeof(Vec3), 1, points_file);
+                BVH_Node *stack[64];
+                int stack_size = 0;
+                stack[stack_size++] = bvh.root;
+
+                while (stack_size > 0)
+                {
+                    BVH_Node *node = stack[--stack_size];
+                    float aabb_t_min;
+                    if (edge_aabb_intersection(edge_origin, edge_direction, edge_length, &(node->aabb), &aabb_t_min))
+                    {
+                        if (node->left == NULL && node->right == NULL)
+                        {
+                            for (uint32_t i = node->start; i < (node->start + node->count); i++)
+                            {
+                                float t;
+                                if (edge_triangle_intersection(edge_origin, edge_direction, edge_length, bvh.triangles + bvh.indices[i], &t))
+                                {
+                                    Vec3 point = vec3_add(edge_origin, vec3_scale(edge_direction, t));
+                                    fwrite(&point, sizeof(Vec3), 1, points_file);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            stack[stack_size++] = node->left;
+                            stack[stack_size++] = node->right;
+                        }
+                    }
+                }
             }
         }
     }
