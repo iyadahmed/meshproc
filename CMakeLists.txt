@@ -18,3 +18,6 @@ target_link_libraries(meshproc INTERFACE OpenMP::OpenMP_C)
 
 add_executable(render_mesh render_mesh.c)
 target_link_libraries(render_mesh PRIVATE meshproc)
+
+add_executable(self_intersection self_intersection.c)
+target_link_libraries(self_intersection PRIVATE meshproc)

@@ -9,6 +9,7 @@
 STRUCT(Triangle)
 {
     Vec3 vertices[3];
+    float edge_lengths[3];
     Vec3 normalized_edge_vectors[3];
     Vec3 normal;
     Vec3 auxilary_plane_normals[3];
@@ -36,13 +37,17 @@ Triangle create_triangle(Vec3 a, Vec3 b, Vec3 c)
     triangle.vertices[1] = b;
     triangle.vertices[2] = c;
 
-    Vec3 e1 = vec3_normalize(vec3_sub(b, a));
-    Vec3 e2 = vec3_normalize(vec3_sub(c, b));
-    Vec3 e3 = vec3_normalize(vec3_sub(a, c));
+    Vec3 e1 = vec3_sub(b, a);
+    Vec3 e2 = vec3_sub(c, b);
+    Vec3 e3 = vec3_sub(a, c);
 
-    triangle.normalized_edge_vectors[0] = e1;
-    triangle.normalized_edge_vectors[1] = e2;
-    triangle.normalized_edge_vectors[2] = e3;
+    triangle.edge_lengths[0] = vec3_length(e1);
+    triangle.edge_lengths[1] = vec3_length(e2);
+    triangle.edge_lengths[2] = vec3_length(e3);
+
+    triangle.normalized_edge_vectors[0] = vec3_div_scalar(e1, triangle.edge_lengths[0]);
+    triangle.normalized_edge_vectors[1] = vec3_div_scalar(e2, triangle.edge_lengths[1]);
+    triangle.normalized_edge_vectors[2] = vec3_div_scalar(e3, triangle.edge_lengths[2]);
 
     triangle.normal = vec3_normalize(vec3_cross(e1, e2));
 
