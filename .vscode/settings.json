@@ -6,5 +6,8 @@
         "args": [
             "${workspaceFolder}/Stanford_Bunny.stl"
         ]
+    },
+    "files.associations": {
+        "ray_aabb_intersection.h": "c"
     }
 }
