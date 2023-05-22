@@ -9,11 +9,6 @@
 #include "triangle.h"
 #include "vec3.h"
 
-bool are_close(Vec3 a, Vec3 b)
-{
-    return vec3_distance(a, b) < 0.00001f;
-}
-
 Vec3 point_along_ray(Vec3 ray_origin, Vec3 ray_direction, float t)
 {
     return vec3_add(ray_origin, vec3_scale(ray_direction, t));
@@ -21,9 +16,9 @@ Vec3 point_along_ray(Vec3 ray_origin, Vec3 ray_direction, float t)
 
 bool is_triangle_vertex(Vec3 point, Triangle *triangle)
 {
-    return are_close(point, triangle->vertices[0]) ||
-           are_close(point, triangle->vertices[1]) ||
-           are_close(point, triangle->vertices[2]);
+    return vec3_are_close(point, triangle->vertices[0]) ||
+           vec3_are_close(point, triangle->vertices[1]) ||
+           vec3_are_close(point, triangle->vertices[2]);
 }
 
 bool are_all_triangle_vertices(Vec3 *points, int size, Triangle *triangle)
@@ -44,7 +39,7 @@ void deduplicate_vec3_array_inplace(Vec3 *array, int *size)
     {
         for (int j = i + 1; j < *size;)
         {
-            if (are_close(array[i], array[j]))
+            if (vec3_are_close(array[i], array[j]))
             {
                 // Shift the remaining elements to the left to overwrite the duplicate
                 for (int k = j; k < *size - 1; k++)

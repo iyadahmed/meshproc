@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math.h>
+#include <stdbool.h>
 
 #include "macros.h"
 
@@ -87,4 +88,9 @@ Vec3 vec3_max(Vec3 a, Vec3 b)
 Vec3 vec3_min(Vec3 a, Vec3 b)
 {
     return VEC3(fminf(a.x, b.x), fminf(a.y, b.y), fminf(a.z, b.z));
+}
+
+bool vec3_are_close(Vec3 a, Vec3 b)
+{
+    return vec3_distance(a, b) < 0.00001f;
 }
