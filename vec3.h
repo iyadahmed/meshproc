@@ -69,6 +69,11 @@ float vec3_length(Vec3 v)
     return sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
 }
 
+float vec3_distance(Vec3 a, Vec3 b)
+{
+    return vec3_length(vec3_sub(a, b));
+}
+
 float vec3_length_squared(Vec3 v)
 {
     return v.x * v.x + v.y * v.y + v.z * v.z;
