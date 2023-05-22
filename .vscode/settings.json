@@ -9,6 +9,15 @@
     },
     "files.associations": {
         "ray_aabb_intersection.h": "c",
-        "ray_bvh_intersection.h": "c"
+        "ray_bvh_intersection.h": "c",
+        "array": "cpp",
+        "charconv": "cpp",
+        "compare": "cpp",
+        "functional": "cpp",
+        "ratio": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "variant": "cpp"
     }
 }
