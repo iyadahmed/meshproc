@@ -119,6 +119,10 @@ int main(int argc, char **argv)
                 assert((ti * 3 + vi) < (num_triangles_out * 3));
                 int rvi = triangles_out[ti * 3 + vi];
                 assert(rvi >= 0);
+                if (rvi >= intersection_points_per_triangle[i].num_used)
+                {
+                    printf("Out of bounds vertex index in triangulation output: %d\n", rvi);
+                }
                 assert(rvi < intersection_points_per_triangle[i].num_used);
                 Vec3 v = intersection_points_per_triangle[i].data[rvi];
                 fwrite(&v, sizeof(Vec3), 1, triangles_file);
