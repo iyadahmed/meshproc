@@ -7,7 +7,7 @@
 
 STRUCT(uint32_Pair)
 {
-    uint32_t a, b;
+    uint32_t first, second;
 };
 
 DYNAMIC_ARRAY_IMPLEMENTATION(uint32_Pair);

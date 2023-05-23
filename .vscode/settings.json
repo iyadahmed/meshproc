@@ -18,6 +18,12 @@
         "tuple": "cpp",
         "type_traits": "cpp",
         "utility": "cpp",
-        "variant": "cpp"
-    }
+        "variant": "cpp",
+        "triangle_triangle_intersection.h": "c"
+    },
+    "cSpell.words": [
+        "meshproc",
+        "triangulateio",
+        "trifree"
+    ]
 }
